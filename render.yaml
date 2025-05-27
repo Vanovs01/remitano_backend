@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: remitano-phish-backend
-    env: php
-    buildCommand: ""
-    startCommand: ""
