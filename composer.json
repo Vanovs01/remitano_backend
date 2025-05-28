@@ -1,0 +1,11 @@
+{
+    "name": "evans/backend",
+    "autoload": {
+        "psr-4": {
+            "Evans\\Backend\\": "src/"
+        }
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.10"
+    }
+}
